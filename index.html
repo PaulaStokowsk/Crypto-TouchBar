@@ -1,0 +1,194 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <link rel="stylesheet" type="text/css" href="style/normalize.css">
+    <link rel="stylesheet" type="text/css" href="style/styles.css">
+    <link rel="stylesheet" type="text/css" href="style/gh-pages-slate-stylesheet.css">
+
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    
+    <script type="module" src="js/app.js"></script>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.min.js" ></script>
+    <script type="text/javascript" src="js/thirdparty/jscolor.min.js"></script>
+    <script type="text/javascript" src="js/thirdparty/rgbcolor.js"></script>
+    <script type="text/javascript" src="js/thirdparty/StackBlur.js"></script>
+    <script type="text/javascript" src="js/thirdparty/canvg.js"></script>
+
+    <link rel="stylesheet" href="js/thirdparty/choices-PR325/choices.min.css">
+    <script src="js/thirdparty/choices-PR325/choices.min.js"></script>
+
+    <link rel="stylesheet" href="node_modules/flatpickr/dist/flatpickr.min.css">
+    <script src="node_modules/flatpickr/dist/flatpickr.min.js"></script>
+
+    <title>Cryptocurrencies on your TouchBar</title>
+</head>
+
+<body>
+    <div id="header_wrap" class="outer">
+            <header class="inner">
+              <h1 id="project_title">Cryptocurrencies on your Touchbar</h1>
+              <h2 id="project_tagline">Cryptocurrency widgets for <a href="https://www.boastr.net/">TouchTool</a>.</h2>
+            </header>
+        </div>
+        <section class="outer">
+        </section>
+
+    <div id="main_content_wrap" class="outer">
+        <section id="main_content" class="inner">
+            <div class="touchbar-base">
+                <div class="touchbar-element-left">
+                    <div class="touchbar-element"><span>esc</span></div>
+                </div>
+                <div id="crypto-touchbar-area" class="touchbar-element-middle">
+                </div>
+                <div class="touchbar-element-right">
+                    <div class="touchbar-element volume"><span class="icon"></span></div>
+                    <div class="touchbar-element mute"><span class="icon"></span></div>
+                    <div class="touchbar-element siri"><span class="icon"></span></div>
+                </div>
+            </div>
+
+            
+            <form id="form">
+                <span>FIAT Currency</span>
+                <select id="fiat">
+                </select>
+
+                <br>
+                <br>
+
+                <span>Crypto Currencies </span><span style="font-size: 10px">(icons available for some)</span>
+                <br>
+                <div id="coins">
+
+                </div>
+
+                <br>
+                <span>Add Other Coins</span>
+                <select class="form-control" multiple name="currency-choices" id="dynamic-coinlist">
+                </select>
+
+            </form>
+
+            <br>
+
+            <form id="useroptions">
+                <h4>Select data to display: </h4>
+                <br>
+                <div id="apiselection">
+                    <input id="live-price" type="radio" name="api-type" data-apiType="live" checked>
+                    <label for="live-price">Live</label>
+                    <br>
+                    <input id="historical-price" type="radio" name="api-type" data-apiType="historical" >
+                    <label for="historical-price">Historical</label>
+
+                    <input id="flatpickr" type="text" placeholder="Select Date/Time.." readonly="readonly" style="width: 200px; display: none;">
+                    <input id="flatpicker-output" type="text" readonly="readonly" style="display: none;">
+                    <input id="flatpicker-output-string" type="text" readonly="readonly" style="display: none;">
+                    <br>
+                    <br>
+                </div>
+
+                <div id="formattoptions">
+                    <h4>Options</h4>
+                    <br>
+                    <div>
+                        <span>Refresh Interval:</span>
+                        <select id="refreshInterval">
+                            <option value="10">10</option>
+                            <option value="30">30</option>
+                            <option value="60" selected>60</option>
+                            <option value="90">90</option>
+                            <option value="120">120</option>
+                        </select>
+                        <span>s</span>
+                    </div>
+                    <div id="grouptoggle">
+                        <input id="groupcheckbox" type="checkbox">
+                        <label for="groupcheckbox">Group crypto elements under one button</label>
+                    </div>
+                    <div id="cacheToggle">
+                        <input id="cachecheckbox" type="checkbox">
+                        <label for="cachecheckbox">Cache results for offline viewing</label>
+                    </div>
+                    <div id="FormatOptions">
+                        <input id="comma-separate" type="checkbox">
+                        <label for="comma-separate">Separate thousands with commas</label>
+                        <br>
+                        <span>How many decimals? </span>
+                        <input id="zero-place" type="radio" name="decimal-count" data-count="0">
+                        <label for="zero-place">0</label>
+                        <input id="one-place" type="radio" name="decimal-count" data-count="1">
+                        <label for="one-place">1</label>
+                        <input id="two-place" type="radio" name="decimal-count" data-count="2">
+                        <label for="two-place">2</label>
+                        <input id="three-place" type="radio" name="decimal-count" data-count="3">
+                        <label for="three-place">3</label>
+                    </div>
+                    
+                    <div id="varianceoptions">
+                        <h5>Literal values</h5>
+                        <div>
+                            <span>How many decimals?  </span>
+                            <input id="zero-place" type="radio" name="literal-round" data-count="0" checked>
+                            <label for="zero-place">0</label>
+                            <input id="one-place" type="radio" name="literal-round" data-count="1">
+                            <label for="one-place">1</label>
+                            <input id="two-place" type="radio" name="literal-round" data-count="2">
+                            <label for="two-place">2</label>
+                            <input id="three-place" type="radio" name="literal-round" data-count="3">
+                            <label for="three-place">3</label>
+                        </div>
+                        <input id="mktcap-trend" type="radio" name="variance-type" data-variance="mktcap">
+                        <label for="mktcap-trend">Show market cap</label>
+                        <br>
+                        <input id="absolute-trend" type="radio" name="variance-type" data-variance="absolute">
+                        <label for="absolute-trend">Absolute </label>
+                        <br>
+                        <input id="relative-trend" type="radio" name="variance-type" data-variance="relative">
+                        <label for="relative-trend">Relative </label>
+                        <br>
+                        <h5>Percentage values</h5>
+                        <div>
+                            <span>How many decimals?   </span>
+                            <input id="zero-place" type="radio" name="percentage-round" data-count="0" checked>
+                            <label for="zero-place">0</label>
+                            <input id="one-place" type="radio" name="percentage-round" data-count="1">
+                            <label for="one-place">1</label>
+                            <input id="two-place" type="radio" name="percentage-round" data-count="2">
+                            <label for="two-place">2</label>
+                            <input id="three-place" type="radio" name="percentage-round" data-count="3">
+                            <label for="three-place">3</label>
+                        </div>
+                        <input id="current-percentage-trend" type="radio" name="variance-type" data-variance="current-percentage">
+                        <label for="current-percentage-trend">Change % based on opening </label>
+                        <br>
+                        <input id="range-percentage-trend" type="radio" name="variance-type" data-variance="range-percentage">
+                        <label for="range-percentage-trend">Relative % Range</label>
+                        <br>
+                    </div>
+                    <br>
+                </div>
+
+            </form>
+            <br>
+            <a id="exportJSON" class="button"><i class="icon-download"></i> download BTT json</a><br>
+            <a id="directExportJSON" class="button"><i class="icon-download"></i> direct import to BTT</a><br>
+            <div id="canvas-area" style="display: none;"></div>
+        </section>
+    </div>
+
+    <div id="footer_wrap" class="outer">
+            <footer class="inner">
+              <p>Implemented by Paula</a></p>
+            </footer>
+          </div>
+
+</body>
+
+</html>
